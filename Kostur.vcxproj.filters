@@ -32,7 +32,10 @@
     <ClInclude Include="Header\SeatManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PersonManager.h">
+    <ClInclude Include="Header\PersonManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CinemaSimulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

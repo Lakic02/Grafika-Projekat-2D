@@ -128,10 +128,11 @@
     <ClCompile Include="Source\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header\CinemaSimulator.h" />
+    <ClInclude Include="Header\PersonManager.h" />
     <ClInclude Include="Header\SeatManager.h" />
     <ClInclude Include="Header\stb_image.h" />
     <ClInclude Include="Header\Util.h" />
-    <ClInclude Include="PersonManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="basic.frag" />
