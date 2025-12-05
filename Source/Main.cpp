@@ -25,9 +25,9 @@ int main() {
     const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
 
     // Za pravi full screen koristi:
-    //GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Bioskopska Sala", primaryMonitor, NULL);
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Bioskopska Sala", primaryMonitor, NULL);
     //samo za test:
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "Bioskopska Sala", NULL, NULL);    
+	//GLFWwindow* window = glfwCreateWindow(1280, 720, "Bioskopska Sala", NULL, NULL);    
 
     if (window == NULL) return endProgram("Prozor nije uspeo da se kreira.");
 
