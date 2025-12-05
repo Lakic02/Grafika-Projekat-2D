@@ -8,7 +8,7 @@
 #include "../Header/Util.h"
 #include "../Header/SeatManager.h"
 #include "../Header/PersonManager.h"
-#include "../Header/CinemaSimulator.h" // <--- Novi Header
+#include "../Header/CinemaSimulator.h" 
 
 const double TARGET_FPS = 75.0;
 const double TARGET_FRAME_TIME = 1.0 / TARGET_FPS;
@@ -41,7 +41,10 @@ int main() {
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
-    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+
+    // --- PROMENA BOJE POZADINE ---
+    // #FFA878 -> R:1.0, G:0.659, B:0.471
+    glClearColor(1.0f, 0.659f, 0.471f, 1.0f);
 
     unsigned int shaderProgram = createShader("basic.vert", "basic.frag");
     glUseProgram(shaderProgram);
@@ -77,10 +80,9 @@ int main() {
     int uTexLoc = glGetUniformLocation(shaderProgram, "uTex");
     glUniform1i(uTexLoc, 0);
 
-    // --- INSTANCIRANJE KLASA ---
     SeatManager seatManager;
     PersonManager personManager;
-    CinemaSimulator simulator; // <--- Glavni kontroler
+    CinemaSimulator simulator;
 
     double lastTime = glfwGetTime();
 
@@ -96,9 +98,7 @@ int main() {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
 
-        // --- INPUT I LOGIKA ---
-
-        // Ako je IDLE, omoguci kupovinu i pokretanje na ENTER
+        // Input samo u IDLE
         if (simulator.currentState == IDLE) {
             int w, h;
             glfwGetWindowSize(window, &w, &h);
@@ -110,23 +110,20 @@ int main() {
             }
         }
 
-        // Update simulacije (kretanje, tajmeri, boje)
         simulator.update(deltaTime, personManager, seatManager);
 
-
-        // --- CRTANJE ---
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
 
-        // 1. Platno (Upravlja simulator)
+        // Platno
         simulator.drawScreen(uPosLoc, uSizeLoc, uColorLoc, uUseTextureLoc);
 
-        // 2. Vrata (Upravlja simulator)
+        // Vrata
         glUniform1i(uUseTextureLoc, 0);
         simulator.drawDoors(uPosLoc, uSizeLoc, uColorLoc);
 
-        // 3. Sedista (Upravlja SeatManager)
+        // Sedista
         for (const Seat& s : seatManager.seats) {
             if (s.state == RESERVED) glUniform4f(uColorLoc, 1.0f, 1.0f, 0.0f, 1.0f);
             else if (s.state == SOLD) glUniform4f(uColorLoc, 0.8f, 0.0f, 0.0f, 1.0f);
@@ -137,12 +134,12 @@ int main() {
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
-        // 4. Ljudi (Samo ako nisu IDLE)
+        // Ljudi
         if (simulator.currentState != IDLE) {
             personManager.draw(shaderProgram, uPosLoc, uSizeLoc, uColorLoc, uUseTextureLoc);
         }
 
-        // 5. Overlay (Samo u IDLE stanju)
+        // Overlay (Tamna zavesa) - Prikazi samo kada je IDLE
         if (simulator.shouldDrawOverlay()) {
             glUniform1i(uUseTextureLoc, 0);
             glUniform4f(uColorLoc, 0.0f, 0.0f, 0.0f, 0.6f);
@@ -151,7 +148,7 @@ int main() {
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
-        // 6. Potpis (Uvek)
+        // Potpis
         if (texturePotpis != 0) {
             glUniform1i(uUseTextureLoc, 1);
             glActiveTexture(GL_TEXTURE0);

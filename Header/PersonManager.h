@@ -13,13 +13,13 @@
 
 struct Person {
     float x, y;
-    float targetX, targetY; // Pozicija sedista
-    float startX, startY;   // Pozicija vrata (da znaju gde da se vrate)
+    float targetX, targetY;
+    float startX, startY;
     float speed;
-    bool reachedRow;        // Faza ulaska: stigao do reda?
-    bool seated;            // Faza ulaska: stigao na sediste?
-    bool isExiting;         // Da li trenutno izlazi?
-    bool hasLeft;           // Da li je napustio kadar?
+    bool reachedRow;
+    bool seated;
+    bool isExiting;
+    bool hasLeft;
 };
 
 class PersonManager {
@@ -43,7 +43,7 @@ public:
             }
         }
 
-        if (occupiedIndices.empty()) return;
+        if (occupiedIndices.empty()) return; // Niko ne ulazi
 
         int maxPeople = occupiedIndices.size();
         int minPeople = (maxPeople > 1) ? maxPeople / 2 : 1;
@@ -53,7 +53,6 @@ public:
         std::mt19937 g(rd());
         std::shuffle(occupiedIndices.begin(), occupiedIndices.end(), g);
 
-        // Vrata su na (-0.98, 0.6)
         float startX = -0.98f;
         float startY = 0.6f;
 
@@ -64,13 +63,11 @@ public:
             Person p;
             p.x = startX;
             p.y = startY;
-            p.startX = startX; // Pamtimo gde su vrata
+            p.startX = startX;
             p.startY = startY;
             p.targetX = targetSeat.x;
             p.targetY = targetSeat.y;
-
             p.speed = 0.3f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.3f));
-
             p.reachedRow = false;
             p.seated = false;
             p.isExiting = false;
@@ -80,11 +77,9 @@ public:
         }
     }
 
-    // Poziva se kada film prodje, svi krecu napolje
     void startExit() {
         for (Person& p : people) {
             p.isExiting = true;
-            // Resetujemo flagove kretanja za povratak
             p.seated = false;
             p.reachedRow = false;
         }
@@ -94,13 +89,11 @@ public:
         float dt = (float)deltaTime;
 
         for (Person& p : people) {
-            if (p.hasLeft) continue; // Ako je izasao, ne diraj ga
+            if (p.hasLeft) continue;
 
             if (!p.isExiting) {
-                // --- ULAZAK (Vrata -> Red -> Sediste) ---
                 if (p.seated) continue;
 
-                // 1. Vertikalno do reda
                 if (!p.reachedRow) {
                     if (p.y > p.targetY) {
                         p.y -= p.speed * dt;
@@ -111,7 +104,6 @@ public:
                     }
                     else p.reachedRow = true;
                 }
-                // 2. Horizontalno do sedista
                 else {
                     if (p.x < p.targetX) {
                         p.x += p.speed * dt;
@@ -124,24 +116,16 @@ public:
                 }
             }
             else {
-                // --- IZLAZAK (Sediste -> Red -> Vrata) ---
-                // Obrnutim redosledom: Prvo X nazad do X vrata, pa Y gore do Y vrata
-
-                // 1. Horizontalno nazad ka vratima (startX je X koordinata vrata)
-                // Posto su vrata levo (-0.98), a sedista desno, smanjujemo X
                 if (p.x > p.startX) {
                     p.x -= p.speed * dt;
-                    if (p.x <= p.startX) {
-                        p.x = p.startX;
-                    }
+                    if (p.x <= p.startX) p.x = p.startX;
                 }
-                // 2. Kada smo poravnati sa vratima po X, idemo GORE (Y osa)
                 else {
                     if (p.y < p.startY) {
                         p.y += p.speed * dt;
                         if (p.y >= p.startY) {
                             p.y = p.startY;
-                            p.hasLeft = true; // Napustio salu
+                            p.hasLeft = true;
                         }
                     }
                     else p.hasLeft = true;
@@ -150,8 +134,9 @@ public:
         }
     }
 
+    // IZMENA: Ako nema ljudi, smatramo da su svi seli (da ne blokiramo logiku)
     bool areAllSeated() {
-        if (people.empty()) return false;
+        if (people.empty()) return true;
         for (const auto& p : people) {
             if (!p.seated) return false;
         }
@@ -179,8 +164,7 @@ public:
         glUniform4f(uColorLoc, 1.0f, 1.0f, 1.0f, 1.0f);
 
         for (const Person& p : people) {
-            if (p.hasLeft) continue; // Ne crtamo one koji su izasli
-
+            if (p.hasLeft) continue;
             glUniform2f(uPosLoc, p.x, p.y);
             glUniform2f(uSizeLoc, 0.08f, 0.08f);
             glDrawArrays(GL_TRIANGLES, 0, 6);
