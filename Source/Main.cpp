@@ -25,7 +25,9 @@ int main() {
     const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
 
     // Za pravi full screen koristi:
-    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Bioskopska Sala", primaryMonitor, NULL);
+    //GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Bioskopska Sala", primaryMonitor, NULL);
+    //samo za test:
+	GLFWwindow* window = glfwCreateWindow(1280, 720, "Bioskopska Sala", NULL, NULL);    
 
     if (window == NULL) return endProgram("Prozor nije uspeo da se kreira.");
 
@@ -34,7 +36,17 @@ int main() {
     // 3. Inicijalizacija GLEW
     if (glewInit() != GLEW_OK) return endProgram("GLEW nije uspeo da se inicijalizuje.");
 
-    // 4. Podesavanje OpenGL
+	// 4. Podesavanje kursora
+    GLFWcursor* cursor = loadImageToCursor("cursor.png");
+    if (!cursor) {
+        std::cout << "Cursor nije ucitan! Proveri putanju i format." << std::endl;
+    }
+    else {
+        std::cout << "Cursor ucitan uspesno." << std::endl;
+        glfwSetCursor(window, cursor);
+    }
+
+    // 5. Podesavanje OpenGL
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
