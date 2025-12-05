@@ -1,2 +1,5 @@
 ﻿  Main.cpp
+C:\Users\Lakic\OneDrive\Desktop\NIkolino\Grafika\Kostur\Header\PersonManager.h(53,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'Source/Main.cpp')
+  
   Kostur.vcxproj -> C:\Users\Lakic\OneDrive\Desktop\NIkolino\Grafika\Kostur\x64\Debug\Kostur.exe
