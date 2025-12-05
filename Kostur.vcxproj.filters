@@ -29,8 +29,13 @@
     <ClInclude Include="Header\Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\SeatManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="basic.frag" />
+    <None Include="basic.vert" />
   </ItemGroup>
 </Project>

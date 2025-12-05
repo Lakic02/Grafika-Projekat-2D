@@ -1,6 +1,2 @@
 ﻿  Main.cpp
-  Util.cpp
-C:\Users\Lakic\OneDrive\Desktop\NIkolino\Grafika\Kostur\Source\Util.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Generating Code...
-C:\Users\Lakic\OneDrive\Desktop\NIkolino\Grafika\Kostur\Source\Util.cpp(172,1): warning C4715: 'loadImageToCursor': not all control paths return a value
   Kostur.vcxproj -> C:\Users\Lakic\OneDrive\Desktop\NIkolino\Grafika\Kostur\x64\Debug\Kostur.exe
