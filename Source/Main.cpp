@@ -20,15 +20,12 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // 2. Kreiranje prozora
+    // 2. Kreiranje prozora - FULL SCREEN (Zahtev zadatka)
     GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
 
-    // Kreiramo prozor (stavio sam fiksnu velicinu radi testiranja, a ti vrati mode->width/height ako zelis full screen)
-    // Bolje je za testiranje koristiti manji prozor da ne blokira ceo ekran ako pukne.
+    // Za pravi full screen koristi:
     GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Bioskopska Sala", primaryMonitor, NULL);
-    // Ako zelis windowed mode za testiranje, koristi ovo ispod umesto linije iznad:
-    // GLFWwindow* window = glfwCreateWindow(1280, 720, "Bioskopska Sala", NULL, NULL);
 
     if (window == NULL) return endProgram("Prozor nije uspeo da se kreira.");
 
@@ -41,7 +38,6 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Dohvatamo stvarnu velicinu prozora (bitno za HighDPI ekrane)
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
@@ -49,16 +45,10 @@ int main() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
     // -----------------------------------------------------------------------
-    // PRIPREMA PODATAKA
-    // -----------------------------------------------------------------------
-
-    // BITNO: Provera da li su fajlovi tu
     unsigned int shaderProgram = createShader("basic.vert", "basic.frag");
-    // createShader vraca neki ID, ali ako je Util.cpp dobro napisan, ispisace gresku u konzoli.
-    // Ovde cemo dodati, za svaki slucaj, proveru (iako createShader uvek vrati nesto).
-    glUseProgram(shaderProgram); // Aktiviramo odmah da vidimo da li puca
+    glUseProgram(shaderProgram);
 
-    // Jedinicni kvadrat (0,0 do 1,1)
+    // Jedinicni kvadrat
     float vertices[] = {
         0.0f, 1.0f, 0.0f, 1.0f,
         0.0f, 0.0f, 0.0f, 0.0f,
@@ -83,10 +73,7 @@ int main() {
     glEnableVertexAttribArray(1);
 
     unsigned int texturePotpis = loadImageToTexture("potpis.png");
-    // Provera teksture
-    if (texturePotpis == 0) {
-        std::cout << "UPOZORENJE: 'potpis.png' nije pronadjen ili nije ucitan!" << std::endl;
-    }
+    if (texturePotpis == 0) std::cout << "UPOZORENJE: 'potpis.png' fali!" << std::endl;
 
     // Uniforme
     int uPosLoc = glGetUniformLocation(shaderProgram, "uPos");
@@ -94,86 +81,86 @@ int main() {
     int uColorLoc = glGetUniformLocation(shaderProgram, "uColor");
     int uUseTextureLoc = glGetUniformLocation(shaderProgram, "uUseTexture");
     int uTexLoc = glGetUniformLocation(shaderProgram, "uTex");
+    glUniform1i(uTexLoc, 0);
 
-    glUniform1i(uTexLoc, 0); // Tekstura unit 0
-
-    // --- INICIJALIZACIJA MENADZERA SEDISTA ---
     SeatManager seatManager;
-    // -----------------------------------------
 
     double lastTime = glfwGetTime();
-    double timer = lastTime;
-    double deltaTime = 0;
     double nowTime = 0;
+    double deltaTime = 0;
 
     // -----------------------------------------------------------------------
     // GLAVNA PETLJA
     // -----------------------------------------------------------------------
     while (!glfwWindowShouldClose(window)) {
 
-        // 1. OBRADA DOGADJAJA (PRVO OVO!)
-        glfwPollEvents();
+        glfwPollEvents(); // Obrada dogadjaja
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
 
-        // 2. FPS LIMITER (Bolja logika)
+        // Frame Limiter (75 FPS)
         nowTime = glfwGetTime();
         deltaTime = nowTime - lastTime;
-
-        // Ako nije proslo dovoljno vremena za sledeci frejm (1/75 sekunde), preskoci crtanje
-        // Ovo sprecava da CPU gori, ali omogucava windowsu da dise
-        if (deltaTime < TARGET_FRAME_TIME) {
-            continue;
-        }
+        if (deltaTime < TARGET_FRAME_TIME) continue;
         lastTime = nowTime;
 
-        // 3. LOGIKA APLIKACIJE
+        // --- INPUT PROCESIRANJE ---
         int w, h;
         glfwGetWindowSize(window, &w, &h);
-        // Ako se prozor minimizuje, w i h budu 0, sto moze izazvati bug sa deljenjem nulom u NDC konverziji
         if (w > 0 && h > 0) {
-            seatManager.processInput(window, w, h);
+            // Mis (za rezervaciju pojedinacnih)
+            seatManager.processMouseInput(window, w, h);
+            // Tastatura (za grupnu kupovinu 1-9)
+            seatManager.processKeyboardInput(window);
         }
 
-        // 4. CRTANJE
+        // --- CRTANJE ---
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
 
-        // A) Platno
+        // 1. Platno
         glUniform1i(uUseTextureLoc, 0);
         glUniform4f(uColorLoc, 1.0f, 1.0f, 1.0f, 1.0f);
         glUniform2f(uPosLoc, -0.6f, 0.6f);
         glUniform2f(uSizeLoc, 1.2f, 0.3f);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        // B) Ulaz
+        // 2. Ulaz
         glUniform4f(uColorLoc, 0.2f, 0.2f, 0.8f, 1.0f);
         glUniform2f(uPosLoc, -0.95f, 0.6f);
         glUniform2f(uSizeLoc, 0.2f, 0.3f);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        // C) SEDISTA
+        // 3. SEDISTA (AZURIRANA LOGIKA BOJA)
         for (const Seat& s : seatManager.seats) {
-            if (s.isReserved) {
-                glUniform4f(uColorLoc, 1.0f, 1.0f, 0.0f, 1.0f); // Zuto
+
+            if (s.state == RESERVED) {
+                // Rezervisano = ZUTO
+                glUniform4f(uColorLoc, 1.0f, 1.0f, 0.0f, 1.0f);
+            }
+            else if (s.state == SOLD) {
+                // Kupljeno = CRVENO
+                glUniform4f(uColorLoc, 1.0f, 0.0f, 0.0f, 1.0f);
             }
             else {
-                glUniform4f(uColorLoc, 0.0f, 0.5f, 1.0f, 1.0f); // Plavo
+                // Slobodno = PLAVO
+                glUniform4f(uColorLoc, 0.0f, 0.5f, 1.0f, 1.0f);
             }
+
             glUniform2f(uPosLoc, s.x, s.y);
             glUniform2f(uSizeLoc, s.width, s.height);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
-        // D) Overlay (Tamni ekran pozadi)
+        // 4. Overlay (Tamni ekran)
         glUniform4f(uColorLoc, 0.1f, 0.1f, 0.1f, 0.5f);
         glUniform2f(uPosLoc, -1.0f, -1.0f);
         glUniform2f(uSizeLoc, 2.0f, 2.0f);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        // E) Potpis
+        // 5. Potpis (Ime i prezime)
         if (texturePotpis != 0) {
             glUniform1i(uUseTextureLoc, 1);
             glActiveTexture(GL_TEXTURE0);
@@ -188,11 +175,9 @@ int main() {
         glfwSwapBuffers(window);
     }
 
-    // Ciscenje
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
-
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
