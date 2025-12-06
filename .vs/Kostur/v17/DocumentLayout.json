@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Source\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:Source\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Header\\CinemaSimulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:Header\\CinemaSimulator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -11,16 +15,12 @@
       "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:Header\\PersonManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Source\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:Source\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\basic.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:basic.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Header\\SeatManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:Header\\SeatManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\basic.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|solutionrelative:basic.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6EECF44A-001F-42A3-91F3-62168F9E8C1D}|Kostur.vcxproj|C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\basic.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -50,24 +50,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 315,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CinemaSimulator.h",
               "DocumentMoniker": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Header\\CinemaSimulator.h",
               "RelativeDocumentMoniker": "Header\\CinemaSimulator.h",
               "ToolTip": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Header\\CinemaSimulator.h",
               "RelativeToolTip": "Header\\CinemaSimulator.h",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAqwI8AAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKUAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-12-05T23:28:15.748Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PersonManager.h",
               "DocumentMoniker": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Header\\PersonManager.h",
               "RelativeDocumentMoniker": "Header\\PersonManager.h",
@@ -92,15 +92,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "basic.frag",
               "DocumentMoniker": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\basic.frag",
               "RelativeDocumentMoniker": "basic.frag",
               "ToolTip": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\basic.frag",
               "RelativeToolTip": "basic.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-12-05T22:19:18.313Z"
+              "WhenOpened": "2025-12-05T22:19:18.313Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -116,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "SeatManager.h",
               "DocumentMoniker": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Header\\SeatManager.h",
               "RelativeDocumentMoniker": "Header\\SeatManager.h",
@@ -140,13 +141,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Main.cpp",
               "DocumentMoniker": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Source\\Main.cpp",
               "RelativeDocumentMoniker": "Source\\Main.cpp",
               "ToolTip": "C:\\Users\\Lakic\\OneDrive\\Desktop\\NIkolino\\Grafika\\Kostur\\Source\\Main.cpp",
               "RelativeToolTip": "Source\\Main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-11-28T20:45:22.081Z",
               "EditorCaption": ""

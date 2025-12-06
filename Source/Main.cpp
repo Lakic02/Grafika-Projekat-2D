@@ -42,14 +42,13 @@ int main() {
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
-    // --- PROMENA BOJE POZADINE ---
-    // #FFA878 -> R:1.0, G:0.659, B:0.471
+    // Pozadina: #FFA878
     glClearColor(1.0f, 0.659f, 0.471f, 1.0f);
 
     unsigned int shaderProgram = createShader("basic.vert", "basic.frag");
     glUseProgram(shaderProgram);
 
-    // Kvadrat geometrija
+    // Kvadrat
     float vertices[] = {
         0.0f, 1.0f, 0.0f, 1.0f,
         0.0f, 0.0f, 0.0f, 0.0f,
@@ -98,7 +97,6 @@ int main() {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
 
-        // Input samo u IDLE
         if (simulator.currentState == IDLE) {
             int w, h;
             glfwGetWindowSize(window, &w, &h);
@@ -116,14 +114,15 @@ int main() {
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
 
-        // Platno
+        // 1. Platno
         simulator.drawScreen(uPosLoc, uSizeLoc, uColorLoc, uUseTextureLoc);
 
-        // Vrata
-        glUniform1i(uUseTextureLoc, 0);
-        simulator.drawDoors(uPosLoc, uSizeLoc, uColorLoc);
+        // 2. Vrata (Sada koristi teksture unutar funkcije)
+        simulator.drawDoors(uPosLoc, uSizeLoc, uColorLoc, uUseTextureLoc);
 
-        // Sedista
+        // 3. Sedista
+        // Iskljucujemo teksture pre crtanja sedista jer ona koriste boju
+        glUniform1i(uUseTextureLoc, 0);
         for (const Seat& s : seatManager.seats) {
             if (s.state == RESERVED) glUniform4f(uColorLoc, 1.0f, 1.0f, 0.0f, 1.0f);
             else if (s.state == SOLD) glUniform4f(uColorLoc, 0.8f, 0.0f, 0.0f, 1.0f);
@@ -134,12 +133,12 @@ int main() {
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
-        // Ljudi
+        // 4. Ljudi
         if (simulator.currentState != IDLE) {
             personManager.draw(shaderProgram, uPosLoc, uSizeLoc, uColorLoc, uUseTextureLoc);
         }
 
-        // Overlay (Tamna zavesa) - Prikazi samo kada je IDLE
+        // 5. Overlay (Zavesa)
         if (simulator.shouldDrawOverlay()) {
             glUniform1i(uUseTextureLoc, 0);
             glUniform4f(uColorLoc, 0.0f, 0.0f, 0.0f, 0.6f);
@@ -148,7 +147,7 @@ int main() {
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
-        // Potpis
+        // 6. Potpis
         if (texturePotpis != 0) {
             glUniform1i(uUseTextureLoc, 1);
             glActiveTexture(GL_TEXTURE0);
